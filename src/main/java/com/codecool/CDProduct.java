@@ -1,19 +1,19 @@
 package com.codecool;
 
 public class CDProduct extends Product {
-    private int numOfTrack;
+    private int numOfTracks;
 
-    public CDProduct(String name, int price, int numOfTrack) {
+    public CDProduct(String name, int price, int numOfTracks) {
         super(name, price);
-        this.numOfTrack = numOfTrack;
+        this.numOfTracks = numOfTracks;
     }
 
-    public int getNumOfTrack() {
+    public int getNumOfTracks() {
 
-        return numOfTrack;
+        return numOfTracks;
     }
 
-    public void setNumOfTrack(int numOfTrack) {
-        this.numOfTrack = numOfTrack;
+    public void setNumOfTracks(int numOfTracks) {
+        this.numOfTracks = numOfTracks;
     }
 }

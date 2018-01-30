@@ -2,8 +2,7 @@ package com.codecool;
 
 public class PersistentStore {
 
-    public void storeProduct(Product product) {
-
-
+    public static void storeProduct(Product product) {
+        Store.sc.getAllProduct().add(product);
     }
 }
