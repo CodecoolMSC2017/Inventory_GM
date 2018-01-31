@@ -3,26 +3,27 @@ package com.codecool;
 import java.util.List;
 
 public class StoreManager {
-    public List<Product> products;
+    private StorageCapable storage;
 
     public StoreManager() {
-        this.products = Store.products;
+
     }
 
-    public String addStorage(StorageCapable storage) {
-        return null;
+    public void addStorage(StorageCapable storage) {
+
+        this.storage = storage;
     }
 
     public void addCDProduct(String name, int price, int tracks) {
-        Store.sc.storeCDProduct(name, price, tracks);
+        storage.storeCDProduct(name, price, tracks);
     }
 
     public void addBookProduct(String name, int price, int pages) {
-        Store.sc.storeBookProduct(name, price, pages);
+        storage.storeBookProduct(name, price, pages);
     }
 
     public String listProducts() {
-        List<Product> listOfProducts = Store.sc.getAllProduct();
+        List<Product> listOfProducts = storage.getAllProduct();
         String products = "";
         for (int i = 0; i < listOfProducts.size(); i++) {
             if (i == listOfProducts.size() - 1) {
@@ -36,7 +37,7 @@ public class StoreManager {
 
     public int getTotalProductPrice() {
         int sumOfPrices = 0;
-        List<Product> listOfProducts = Store.sc.getAllProduct();
+        List<Product> listOfProducts = storage.getAllProduct();
         for (int i = 0; i < listOfProducts.size() ; i++) {
             sumOfPrices += listOfProducts.get(i).getPrice();
         }

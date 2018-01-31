@@ -1,8 +1,8 @@
 package com.codecool;
 
-public class PersistentStore {
+public class PersistentStore extends Store {
 
-    public static void storeProduct(Product product) {
-        Store.sc.getAllProduct().add(product);
+    public void storeProduct(Product product) {
+        getAllProduct().add(product);
     }
 }
