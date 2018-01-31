@@ -25,10 +25,13 @@ import java.util.List;
 
 public abstract class Store implements StorageCapable {
 
-    public List<Product> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
+    public List<Product> getProducts() {
+        return products;
+    }
 
-    private void saveToXml() {
+    private void saveToXml(String fileName) {
 
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -37,7 +40,7 @@ public abstract class Store implements StorageCapable {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("Products.xml"));
+            StreamResult result = new StreamResult(new File(fileName));
 
             Element rootElement = doc.createElement("Store");
             doc.appendChild(rootElement);
@@ -102,11 +105,8 @@ public abstract class Store implements StorageCapable {
         try {
             if (type.toLowerCase().equals("book")) {
                 product = new BookProduct(name, price, size);
-                storeBookProduct(name, price, size);
             } else if (type.toLowerCase().equals("cd")) {
                 product = new CDProduct(name, price, size);
-                storeCDProduct(name, price, size);
-
             }
 
         } catch (IllegalArgumentException ex) {
@@ -123,19 +123,17 @@ public abstract class Store implements StorageCapable {
 
     @Override
     public void storeCDProduct(String name, int price, int tracks) {
-        CDProduct cd = new CDProduct(name, price, tracks);
-        storeProduct(cd);
+        storeProduct(createProduct("cd", name, price, tracks));
     }
 
     @Override
     public void storeBookProduct(String name, int price, int pages) {
-        BookProduct book = new BookProduct(name, price, pages);
-        storeProduct(book);
+        storeProduct(createProduct("book", name, price, pages));
     }
 
-    public List<Product> loadProducts() {
+    public List<Product> loadProducts(String filename) {
         try {
-            File fXmlFile = new File("Products.xml");
+            File fXmlFile = new File(filename);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -168,8 +166,7 @@ public abstract class Store implements StorageCapable {
         return products;
     }
 
-    public void store(){
-        //storeProduct(product);
-        saveToXml();
+    public void store(String filename){
+        saveToXml(filename);
     }
 }
