@@ -20,64 +20,66 @@ public abstract class Store implements StorageCapable {
 
     public List<Product> products = new ArrayList<>();
 
-    private void saveToXml(Product product) {
+
+    private void saveToXml() {
+
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
             Document doc = docBuilder.newDocument();
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("Products.xml"));
+
             Element rootElement = doc.createElement("Store");
             doc.appendChild(rootElement);
 
-            Element product1 = doc.createElement("Product");
-            rootElement.appendChild(product1);
-
-            Attr attr = doc.createAttribute("type");
-            if (product instanceof BookProduct) {
-                attr.setValue("book");
-                product1.setAttributeNode(attr);
-
-                Element name = doc.createElement("name");
-                name.appendChild(doc.createTextNode(product.getName()));
-                product1.appendChild(name);
-
-                Element price = doc.createElement("price");
-                price.appendChild(doc.createTextNode(Integer.toString(product.getPrice())));
-                product1.appendChild(price);
-
-                Element numOfPages = doc.createElement("pages");
-                numOfPages.appendChild(doc.createTextNode(Integer.toString(((BookProduct) product).getNumOfPage())));
-                product1.appendChild(numOfPages);
-
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File("Products.xml"));
-                transformer.transform(source, result);
 
 
-            } else if (product instanceof CDProduct){
+            for (int i = 0; i < getAllProduct().size() ; i++) {
+                if (getAllProduct().get(i) instanceof CDProduct) {
+                    Element product1 = doc.createElement("Product");
+                    rootElement.appendChild(product1);
+                    Attr attr = doc.createAttribute("type");
+                    attr.setValue("cd");
+                    product1.setAttributeNode(attr);
 
-                attr.setValue("cd");
-                product1.setAttributeNode(attr);
+                    Element name = doc.createElement("name");
+                    name.appendChild(doc.createTextNode(getAllProduct().get(i).getName()));
+                    product1.appendChild(name);
 
-                Element name = doc.createElement("name");
-                name.appendChild(doc.createTextNode(product.getName()));
-                product1.appendChild(name);
+                    Element price = doc.createElement("price");
+                    price.appendChild(doc.createTextNode(Integer.toString(getAllProduct().get(i).getPrice())));
+                    product1.appendChild(price);
 
-                Element price = doc.createElement("price");
-                price.appendChild(doc.createTextNode(Integer.toString(product.getPrice())));
-                product1.appendChild(price);
+                    Element numOfTracks = doc.createElement("tracks");
+                    numOfTracks.appendChild(doc.createTextNode(Integer.toString(((CDProduct) getAllProduct().get(i)).getNumOfTracks())));
+                    product1.appendChild(numOfTracks);
 
-                Element numOfTracks = doc.createElement("tracks");
-                numOfTracks.appendChild(doc.createTextNode(Integer.toString(((CDProduct) product).getNumOfTracks())));
-                product1.appendChild(numOfTracks);
+                    transformer.transform(source, result);
 
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                DOMSource source = new DOMSource(doc);
-                StreamResult result = new StreamResult(new File("Products.xml"));
-                transformer.transform(source, result);
+                } else if (getAllProduct().get(i) instanceof BookProduct) {
+                    Element product1 = doc.createElement("Product");
+                    rootElement.appendChild(product1);
+                    Attr attr = doc.createAttribute("type");
+                    attr.setValue("book");
+                    product1.setAttributeNode(attr);
+
+                    Element name = doc.createElement("name");
+                    name.appendChild(doc.createTextNode(getAllProduct().get(i).getName()));
+                    product1.appendChild(name);
+
+                    Element price = doc.createElement("price");
+                    price.appendChild(doc.createTextNode(Integer.toString(getAllProduct().get(i).getPrice())));
+                    product1.appendChild(price);
+
+                    Element numOfTracks = doc.createElement("pages");
+                    numOfTracks.appendChild(doc.createTextNode(Integer.toString(((BookProduct) getAllProduct().get(i)).getNumOfPage())));
+                    product1.appendChild(numOfTracks);
+
+                    transformer.transform(source, result);
+                }
             }
         } catch (ParserConfigurationException pcex) {
             pcex.printStackTrace();
@@ -128,8 +130,8 @@ public abstract class Store implements StorageCapable {
         return null;
     }
 
-    public void store(Product product){
-        storeProduct(product);
-        saveToXml(product);
+    public void store(){
+        //storeProduct(product);
+        saveToXml();
     }
 }

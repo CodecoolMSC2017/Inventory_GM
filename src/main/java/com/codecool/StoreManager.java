@@ -5,8 +5,8 @@ import java.util.List;
 public class StoreManager {
     private StorageCapable storage;
 
-    public StoreManager() {
-
+    public StorageCapable getStorage() {
+        return storage;
     }
 
     public void addStorage(StorageCapable storage) {
