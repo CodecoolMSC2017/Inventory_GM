@@ -2,19 +2,25 @@ package com.codecool;
 
 public class Main {
     public static void main(String[] args) {
+
         PersistentStore ps = new PersistentStore();
-        CsvPersistentStore csvPs = new CsvPersistentStore();
         StoreManager manager = new StoreManager();
-        manager.addStorage(csvPs);
-        manager.addCDProduct("Master of puppets", 1500, 10);
-        manager.addBookProduct("Bölcsek Köve", 2500, 500);
-        manager.addCDProduct("Four horsemen", 5000, 12);
+        manager.addStorage(ps);
         manager.addBookProduct("Black", 500, 5);
         manager.addCDProduct("Infected Mushroom II", 5000, 15);
-        csvPs.store("Products.csv");
-        ps.loadProducts("Products.xml");
+        ps.store("Products.xml");
         System.out.println(manager.listProducts());
         System.out.println(manager.getTotalProductPrice());
+
+        CsvPersistentStore csvPs = new CsvPersistentStore();
+        StoreManager managerCsv = new StoreManager();
+        managerCsv.addStorage(csvPs);
+        managerCsv.addCDProduct("Master of puppets", 1500, 10);
+        managerCsv.addBookProduct("Bölcsek Köve", 2500, 500);
+        managerCsv.addCDProduct("Four horsemen", 5000, 12);
+        csvPs.store("Products.csv");
+        System.out.println(managerCsv.listProducts());
+        System.out.println(managerCsv.getTotalProductPrice());
 
     }
 
