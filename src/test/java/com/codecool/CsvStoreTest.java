@@ -28,19 +28,7 @@ class CsvStoreTest {
         manager.addBookProduct("test",1,1);
         ps.store("Test.csv");
         ps.saveToCsv("Test.csv");
-
-
-
-
     }
-
-    @Test
-    void createProduct() {
-        cd = ps.createProduct("CD", "Metallica", 5000, 12);
-        assertEquals("Metallica", cd.getName());
-        assertEquals(5000, cd.getPrice());
-    }
-
     @Test
     void store() throws IOException {
         boolean isEmpty = true;
