@@ -5,49 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class CsvStore implements StorageCapable {
+public abstract class CsvStore extends Store implements StorageCapable {
 
-    private List<Product> products = new ArrayList<>();
-
-    protected abstract void storeProduct(Product product);
-
+    private List<Product> products = getProducts();
     private final String CSV_SEPARATOR = ",";
-
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    protected Product createProduct(String type, String name, int price, int size) {
-        Product product = null;
-        try {
-            if (type.toLowerCase().equals("book")) {
-                product = new BookProduct(name, price, size);
-            } else if (type.toLowerCase().equals("cd")) {
-                product = new CDProduct(name, price, size);
-            }
-
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-            System.out.println("Not valid type! (Try cd or book!)");
-        }
-        return product;
-    }
-
-    @Override
-    public List<Product> getAllProduct() {
-        return products;
-    }
-
-    @Override
-    public void storeCDProduct(String name, int price, int tracks) {
-        storeProduct(createProduct("book", name, price, tracks));
-    }
-
-    @Override
-    public void storeBookProduct(String name, int price, int pages) {
-        storeProduct(createProduct("book", name, price, pages));
-    }
 
     public void saveToCsv(String fileName) {
         try {
